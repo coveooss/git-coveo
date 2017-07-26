@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+
+function die {
+    echo >&2 "$@"
+    exit 1
+}
+
+JIRA_URL=$(git config jira.url)
+
+[[ -n "$JIRA_URL" ]] || die "Missing git config jira.url"
+
+FILE=$1
+MSG=$(grep -v '^#' $FILE)
+
+if [[ -z "$(echo \"$MSG\" | grep '[A-Z]\+-\d\+')" ]]; then
+    BRANCH=$(git symbolic-ref --short HEAD)
+    JIRA_FROM_BRANCH=$(echo "$BRANCH" | grep -o '^[A-Z]\+-\d\+')
+    if [[ -n "$JIRA_FROM_BRANCH" ]]; then
+        echo "$JIRA_URL/$JIRA_FROM_BRANCH" >> $FILE
+        echo "Appended '$JIRA_FROM_BRANCH' to commit message (detected from branch name)"
+    fi
+fi
