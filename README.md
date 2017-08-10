@@ -10,5 +10,5 @@ ln -s $HOME/Developer/git-coveo/hooks $HOME/.githooks
 
 git config --global core.hooksPath $HOME/.githooks
 
-git config --global jira.url=https://myjira.atlassian.net/browse
+git config --global jira.url https://myjira.atlassian.net/browse
 ```
