@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 
 function die {
@@ -13,9 +13,9 @@ JIRA_URL=$(git config jira.url)
 FILE=$1
 MSG=$(grep -v '^#' $FILE)
 
-if [[ -z "$(echo \"$MSG\" | grep '[A-Z0-9]\+-\d\+')" ]]; then
+if [[ -z "$(echo \"$MSG\" | grep '[A-Z0-9]\+-[0-9]\+')" ]]; then
     BRANCH=$(git symbolic-ref --short HEAD)
-    JIRA_FROM_BRANCH=$(echo "$BRANCH" | grep -o '[A-Z0-9]\+-\d\+')
+    JIRA_FROM_BRANCH=$(echo "$BRANCH" | grep -o '[A-Z0-9]\+-[0-9]\+')
     if [[ -n "$JIRA_FROM_BRANCH" ]]; then
         echo "$JIRA_URL/$JIRA_FROM_BRANCH" >> $FILE
         echo "Appended '$JIRA_FROM_BRANCH' to commit message (detected from branch name)"
